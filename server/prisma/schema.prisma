@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@localhost:5432/notarium"
+  url      = "postgresql://postgres:0705@localhost:5432/notarium"
 }
 
 model Todo{
