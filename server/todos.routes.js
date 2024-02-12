@@ -30,11 +30,7 @@ todosRoutes.put("/todos", async (request, response) => {
 		return response.status(400).json("O id é obrigatório.")
 	}
 
-	const todoAlreadyExist = await prisma.todo.findUnique({
-		where: {
-			id
-		}
-	})
+	const todoAlreadyExist = await prisma.todo.findUnique({ where: { id } })
 
 	if (!todoAlreadyExist) {
 		return response.status(404).json("A todo não existe.")
@@ -53,7 +49,24 @@ todosRoutes.put("/todos", async (request, response) => {
 	return response.status(200).json(todo);
 })
 // D
-todo
+todosRoutes.delete("/todos/:id", async (request, response) => {
+	const {id} = request.params;
+
+	const intId = parseInt(id);
+
+	if (!intId) {
+    return response.status(400).json("O id é obrigatório.");
+  }
+
+	const todoAlreadyExist = await prisma.todo.findUnique({ where: { intId } });
+
+	if (!todoAlreadyExist) {
+    return response.status(404).json("A todo não existe.");
+  }
+
+	prisma.todo.delete({ where: { intId } });
+	return response.status(200).send();
+})
 
 module.exports = todosRoutes;
 
